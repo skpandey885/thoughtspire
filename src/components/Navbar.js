@@ -3,10 +3,13 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link, NavLink, useNavigate, useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import Button from './Button';
 
 const navigation = [
   { name: 'Home', href: '/', current: true },
   { name: 'Trending', href: '/trending', current: false },
+  {name: "Create Post", href: '/create-post',current : false},
+  
 ]
 
 function classNames(...classes) {
@@ -17,17 +20,17 @@ export default function Navbar() {
 
   const location = useLocation();
   const [currentRoute, setCurrentRoute] = useState('/');
-
   
   useEffect(() => {
     setFalse(location.pathname)
-    console.log(location.pathname);
+   
     setCurrentRoute(location.pathname);
   }, [location]);
   
   function setFalse(path) {
-
+    
     navigation.forEach((element) => {
+        
       if ((element.href).localeCompare(path, undefined, { sensitivity: 'accent' }) === 0) {
         element.current = true;
       } else {
@@ -35,7 +38,7 @@ export default function Navbar() {
       }
     });
   }
-  
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -61,28 +64,25 @@ export default function Navbar() {
     </Link>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                     
+                    {navigation.map((item, index) => (
+  
                      <Link to = {item.href}
                         key={item.name}
-                    
+
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white font-Sora no-underline'  : 'text-gray-300 hover:bg-gray-700 hover:text-white  font-Sora no-underline',
-                          'rounded-md px-3 py-2 text-sm font-medium font-Sora no-underline' 
+                          'rounded-md px-3 py-2 text-sm font-Sora no-underline' ,
+                          index === (navigation.length-1) ? 'text-white whitespace-no-wrap bg-black-600 border border-black-700 shadow-sm hover:bg-black-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black-500' : '',
+                          item.current ? 'bg-gray-900 text-white'  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                         )}
-                        
                         aria-current={item.current ? 'page' : undefined}
-                        
                       >
                         {item.name}
                       
                       </Link>
 
                     ))}
-
-                  
-                  
-                  </div>
+                    
+                </div>
 
 
                 </div>
@@ -160,15 +160,16 @@ export default function Navbar() {
           </div>
 
           <Disclosure.Panel className="sm:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
+            <div className="px-2 pt-2 pb-3 space-y-1 ">
+              {navigation.map((item, index) => (
                 <Disclosure.Button
                   key={item.name}
                   as="a"
                   href={item.href}
                   className={classNames(
+                    index === (navigation.length-1) ? 'text-white whitespace-no-wrap bg-black-600 border border-black-700 shadow-sm hover:bg-black-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black-500' : '',
                     item.current ? 'bg-gray-900 text-white font-Sora' : 'text-gray-300 hover:bg-gray-700 hover:text-white no-underline font-Sora',
-                    'block rounded-md px-3 py-2 text-base font-medium no-underline font-Sora'
+                    'block rounded-md px-3 py-2 text-base font-medium no-underline font-Sora text-center'
                   )}
                   aria-current={item.current ? 'page' : undefined}
                 >

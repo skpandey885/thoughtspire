@@ -3,8 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Trending from './pages/Trending';
-import Signup from './pages/Signup';
-import About from './pages/About';
 import CreatePost from './pages/CreatePost';
 
 

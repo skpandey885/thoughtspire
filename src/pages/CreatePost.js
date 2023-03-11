@@ -5,7 +5,7 @@ const CreatePost = () => {
   return (
     <Base>
     <div>CreatePost</div>
-    /</Base>
+    </Base>
   )
 }
 
