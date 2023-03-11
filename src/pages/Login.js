@@ -1,8 +1,12 @@
 import React from 'react'
+import Base from "../components/Base";
 
 const Login = () => {
   return (
-    <div>Login</div>
+    <Base>
+   <div>Login</div>
+    </Base>
+
   )
 }
 

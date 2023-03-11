@@ -1,11 +1,12 @@
 import React from 'react'
 import Base from "../components/Base";
-const About = () => {
+
+const Trending = () => {
   return (
     <Base>
-    <div>About</div>
+    <div>Trending</div>
     </Base>
   )
 }
 
-export default About
+export default Trending

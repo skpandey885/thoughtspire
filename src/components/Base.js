@@ -1,12 +1,12 @@
 import React from 'react'
-
+import Navbar from './Navbar';
 const Base = ({title = "Welcome to my website" , children}) => {
   return (
-    <div className='container-fluid'>
-        <h1 color='red'>This is header</h1>
-    {children}     
-     <h1 color='red'>This is footer</h1>
-   
+    <div>
+      <Navbar/>
+
+    {children}   
+      
    </div>
   )
 }
