@@ -24,7 +24,6 @@ const toRedirect = () => {
   }else{
     settoURL("/auth/login");
   }
-
 }
 
 useEffect(() => {
@@ -48,6 +47,7 @@ useEffect(() => {
             <img
               src="https://res.cloudinary.com/macxenon/image/upload/v1631570592/Run_-_Health_qcghbu.png"
               className="hidden lg:block"
+              alt="vector"
             />
           </div>
         </div>

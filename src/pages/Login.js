@@ -1,6 +1,6 @@
 import React from 'react'
 import Base from "../components/Base";
-import {Link, NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {ReactComponent as LoginSVG} from "../assets/undraw_secure_login_pdn4.svg"
 
 const Login = () => {
