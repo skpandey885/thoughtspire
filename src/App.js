@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Trending from './pages/Trending';
 import CreatePost from './pages/CreatePost';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 
 function App() {
@@ -12,7 +14,11 @@ function App() {
 <Routes>
   <Route path = "/" element={<Home/>}/>
   <Route path = "trending" element={<Trending/>}/>
-  <Route path = "create-post" element={<CreatePost/>}/>
+  <Route path = "posts/create" element={<CreatePost/>}/>
+  <Route path = "auth/login" element={<Login/>}/>
+  <Route path="auth/signup" element={<Signup/>} />
+
+
 </Routes>
 </BrowserRouter>
   );

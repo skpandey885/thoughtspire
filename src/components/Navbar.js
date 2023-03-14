@@ -3,12 +3,12 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link, NavLink, useNavigate, useLocation} from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Button from './Button';
+
 
 const navigation = [
   { name: 'Home', href: '/', current: true },
   { name: 'Trending', href: '/trending', current: false },
-  {name: "Create Post", href: '/create-post',current : false},
+  {name: "Create Post", href: '/posts/create',current : false},
   
 ]
 
@@ -43,6 +43,9 @@ export default function Navbar() {
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
+
+             
+
           <div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div className="relative flex items-center justify-between h-16">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -71,7 +74,7 @@ export default function Navbar() {
 
                         className={classNames(
                           'rounded-md px-3 py-2 text-sm font-Sora no-underline' ,
-                          index === (navigation.length-1) ? 'text-white whitespace-no-wrap bg-black-600 border border-black-700 shadow-sm hover:bg-black-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black-500' : '',
+                          index === (navigation.length-1) ? 'text-white whitespace-no-wrap bg-black-600 border border-black-700 shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black-500' : '',
                           item.current ? 'bg-gray-900 text-white'  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                         )}
                         aria-current={item.current ? 'page' : undefined}
