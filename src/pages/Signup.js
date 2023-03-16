@@ -8,9 +8,8 @@ import {toast} from 'react-toastify';
 
 const Signup = () => {
  
-  
  const errorMessages = ["Fullname should be of atleast 4-16 characters!",
- "Enter a valid email address!" ,"Password cannot not be empty!", "Passwords do not match!", "About cannot be Empty!"
+ "Enter a valid email address!" ,"Password cannot be less than 8 Characters!", "Passwords do not match!", "About cannot be Empty!"
 ];
   
   const navigate = useNavigate(); 
@@ -40,6 +39,8 @@ const [data, setdata] = useState({
 const invalidClass = (value)=>{
   if(value  === "confirmPassword"){
     return (data.confirmPassword === data.password)? "hidden" : "block";
+  }else if(value  === "password"){
+    return (data.password.length>=8)? "hidden" : "block";
   }
 }
 
