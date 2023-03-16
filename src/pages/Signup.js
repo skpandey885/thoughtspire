@@ -1,36 +1,57 @@
 import React, { useState } from 'react'
 import Base from "../components/Base";
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-
+import { signUp } from '../services/user-services';
+import {toast} from 'react-toastify';
 const Signup = () => {
- const [firstPassword, setfirstPassword] = useState("")
- const [secondPassword, setsecondPassword] = useState("")
+
+
+const [data, setdata] = useState({
+  name: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+  about : ""
+})
+
  const [toURL, settoURL] = useState("")
  const navigate = useNavigate();
 
- const handleChange1 = (event) => {
-  setfirstPassword(event.target.value);
-};
+ const handleChange = (event, property) =>{
+  setdata({...data, [property] : event.target.value})
+ }
 
-const handleChange2 = (event) => {
-  setsecondPassword(event.target.value);
-};
- 
-const toRedirect = () => {
+const submitForm= (event) => {
+  console.log(process.env.REACT_APP_BASE_URL);
 
-  if(firstPassword===secondPassword){
-    settoURL("/");
-  }else{
+  var firstPassword = data.password
+  var secondPassword = data.confirmPassword
+  
+  if(firstPassword === secondPassword ){
     settoURL("/auth/login");
+  }else{
+    settoURL("#");
   }
-}
 
-useEffect(() => {
-  if (toURL) {
-    navigate(toURL);
-  }
-}, [toURL, navigate]);
+
+
+const newData = {
+  name: data.name,
+  email : data.email,
+  password : data.password,
+  about : data.about
+}
+console.log(newData);
+  signUp(newData).then((response) =>{
+    console.log(response);
+    toast.success("User Registered Successfully!")
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+  
+}
 
   
   return (
@@ -60,60 +81,92 @@ useEffect(() => {
             </p>
             <div className="relative w-full mt-6 mb-0 ml-0 mr-0 space-y-8">
               <div className="relative">
-                <p
+                <label
                   className="absolute pt-0 pb-0 pl-1 pr-1 mb-0 ml-2 mr-0 -mt-3 font-medium text-gray-600 bg-white"
+                  htmlFor='full-name'
                 >
                  Full Name
-                </p>
+                </label>
                 <input
                   placeholder="John Melvin"
+                  onChange={(e) => handleChange(e, "name")}
                   type="text"
                   className="block w-full p-3 mb-0 ml-0 mr-0 text-base placeholder-gray-400 bg-white border border-gray-300 rounded-md pb- focus:outline-none focus:border-black"
+                  id='full-name'
+                  required
                 />
               </div>
               <div className="relative">
-                <p className="absolute pt-0 pb-0 pl-2 pr-2 mb-0 ml-2 mr-0 -mt-3 font-medium text-gray-600 bg-white">
+                <label className="absolute pt-0 pb-0 pl-2 pr-2 mb-0 ml-2 mr-0 -mt-3 font-medium text-gray-600 bg-white"
+                 htmlFor='email'
+                >
                   Email
-                </p>
+                </label>
                 <input
                   placeholder="123@ex.com"
+                  onChange={(e) => handleChange(e, "email")}
                   type="email"
+                  id='email'
                   className="block w-full p-3 mt-2 mb-0 ml-0 mr-0 text-base placeholder-gray-400 bg-white border border-gray-300 rounded-md focus:outline-none focus:border-black"
                 />
               </div>
               <div className="relative">
-                <p
+                <label
                   className="absolute pt-0 pb-0 pl-2 pr-2 mb-0 ml-2 mr-0 -mt-3 font-medium text-gray-600 bg-white"
+                  htmlFor='password'
                 >
                   Password
-                </p>
+                </label>
                 <input
                   placeholder="Password"
                   type="password"
-                  onChange={handleChange1}
+                  id='password'
+                  onChange={(e) => handleChange(e, "password")}
                   className="block w-full p-3 mt-2 mb-0 ml-0 mr-0 text-base placeholder-gray-400 bg-white border border-gray-300 rounded-md focus:outline-none focus:border-black"
+                  required
                 />
+                
+                </div>
+              <div className="relative">
+                <label
+                  className="absolute pt-0 pb-0 pl-2 pr-2 mb-0 ml-2 mr-0 -mt-3 font-medium text-gray-600 bg-white"
+                  htmlFor='confirm-password'
+                >
+                  Confirm Password
+                </label>
+                <input
+                  placeholder="Password"
+                  type="password"
+                  id='confirm-password'
+                  onChange={(e) => handleChange(e, "confirmPassword")}
+                  className="block w-full p-3 mt-2 mb-0 ml-0 mr-0 text-base placeholder-gray-400 bg-white border border-gray-300 rounded-md focus:outline-none focus:border-black"
+                  required
+               />
               </div>
 
               <div className="relative">
-                <p
-                  className="absolute pt-0 pb-0 pl-2 pr-2 mb-0 ml-2 mr-0 -mt-3 font-medium text-gray-600 bg-white"
+                <label className="absolute pt-0 pb-0 pl-2 pr-2 mb-0 ml-2 mr-0 -mt-3 font-medium text-gray-600 bg-white"
+                  htmlFor='about'
                 >
-                  Confirm Password
-                </p>
-                <input
-                  placeholder="Password"
-                  type="password"
-                  onChange={handleChange2}
+                  About
+                </label>
+                <textarea
+                  placeholder="About"
+                  id='about'
+                  onChange={(e) => handleChange(e, "about")}
+                  type="text"
                   className="block w-full p-3 mt-2 mb-0 ml-0 mr-0 text-base placeholder-gray-400 bg-white border border-gray-300 rounded-md focus:outline-none focus:border-black"
-                />
+                  required
+               />
               </div>
+
+              
               <div className="relative">
                 
                 <Link
                 type='submit'
-                to={toURL}
-                onClick={toRedirect}
+                to="#"
+                onClick={(e)=> submitForm(e)}
                   className="inline-block w-full pt-4 pb-4 pl-5 pr-5 text-xl font-medium text-center text-white no-underline transition duration-200 bg-indigo-500 rounded-lg hover:bg-indigo-600 ease"
                 >
                   Submit
@@ -314,3 +367,5 @@ useEffect(() => {
 }
 
 export default Signup
+
+
