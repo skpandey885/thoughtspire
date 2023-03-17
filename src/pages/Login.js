@@ -11,6 +11,7 @@ import { doLogin } from '../auth';
 const Login = () => {
 
 const navigate  = useNavigate()
+const [toURL, settoURL] = useState("")
 const errorMessages = ["Enter a valid email!" ,"Password cannot be empty!"];
   const [loginDetail, setLoginDetail] = useState({
      username : "",
