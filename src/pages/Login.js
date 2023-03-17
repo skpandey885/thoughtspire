@@ -1,9 +1,104 @@
 import React from 'react'
 import Base from "../components/Base";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {ReactComponent as LoginSVG} from "../assets/undraw_secure_login_pdn4.svg"
+import { useState, useEffect } from 'react';
+import {toast} from 'react-toastify';
+import { loginUser } from '../services/user-services';
+import { doLogin } from '../auth';
+
 
 const Login = () => {
+
+const navigate  = useNavigate()
+const errorMessages = ["Enter a valid email!" ,"Password cannot be empty!"];
+  const [loginDetail, setLoginDetail] = useState({
+     username : "",
+     password: ""
+  });
+
+  const [isValid, setIsValid] = useState({
+    username: true,
+    password: true
+  })
+
+  /*
+  useEffect(() => {
+  console.log(loginDetail);
+  }, [loginDetail])
+  */
+
+const handleChange = (e, field) =>{
+    setIsValid({...isValid, [field] : e.target.validity.valid})
+    setLoginDetail({...loginDetail, [field] : (e.target.value)})
+}
+  
+  
+useEffect(() => {
+  if (toURL) {
+    navigate(toURL);
+  }
+}, [toURL, navigate]);
+
+
+
+const handleReset = ()=>{
+  setLoginDetail({
+    username:"",
+    password:""
+  });
+}
+
+
+const handleSubmit = (e)=>{
+  e.preventDefault();
+  
+// Validation
+for (const key in loginDetail) {
+  let value = loginDetail[key].trim()
+  if(value===""){
+    toast.info("Please fill the complete Information!")
+    return
+  }
+}
+
+if(!isValid.username){
+  return
+}
+
+// Call to server
+
+loginUser(loginDetail)
+.then((data) =>{
+
+
+  // save the data to localStorage
+  doLogin(data, () =>{
+    console.log("Data saved to local storage.");
+  });
+
+
+  toast.success("Login Successful!")
+  console.log(data);
+})
+.catch((error)=>{
+
+
+  let status = error.response.status
+  if(status === 404 ){
+  toast.error("User not found!");
+  }else if(status === 400){
+    toast.error("Invalid Username or Password!");
+  }else{
+    toast.error("Something went wrong!");
+  }
+});
+
+
+}
+
+
+
   return (
     <Base>
 
@@ -39,7 +134,17 @@ const Login = () => {
                 id="email"
                 placeholder="you@company.com"
                 className="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
+                value={loginDetail.username}
+                onChange={(e)=> handleChange(e, "username")}
               />
+
+
+          {!isValid.username && 
+             <span className="flex items-center mt-1 ml-1 text-xs font-medium tracking-wide text-red-500">
+              {errorMessages[0]}
+              </span> 
+            }
+            
             </div>
             <div className="mb-6">
               <div className="flex justify-between mb-2">
@@ -62,18 +167,25 @@ const Login = () => {
                 id="password"
                 placeholder="Your Password"
                 className="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
-              />
+                value={loginDetail.password}
+                onChange={(e)=> handleChange(e, "password")}
+             />
             </div>
             <div className="mb-6">
+            
+            <Link to={toURL}
+            onClick={(e)=> handleSubmit(e)}
+            >
               <button
                 type="submit"
                 className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none hover:bg-indigo-600"
               >
                 Sign in
               </button>
-
+              </Link>
               <button
                 type="reset"
+                onClick={handleReset}
                 className="w-full px-1 py-2 my-2 text-white bg-gray-900 rounded-md focus:bg-gray-800 focus:outline-none hover:bg-gray-800"
               >
                 Reset

@@ -52,7 +52,7 @@ const handleChange = (event, property) =>{
 const submitForm = (event) => {
   
 for (const key in data) {
-  let value = data[key]
+  let value = data[key].trim()
   if(value===""){
     toast.info("Please fill the complete Information!")
     return
@@ -65,10 +65,10 @@ for (const key in data) {
     return
   }
     const newData = {
-      name: data.name,
-      email : data.email,
-      password : data.password,
-      about : data.about
+      name: data.name.trim(),
+      email : data.email.trim(),
+      password : data.password.trim(),
+      about : data.about.trim()
     }
     
       signUp(newData).then((response) =>{
