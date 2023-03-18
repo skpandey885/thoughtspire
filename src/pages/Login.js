@@ -2,7 +2,7 @@ import React from 'react'
 import Base from "../components/Base";
 import {Link, useNavigate} from "react-router-dom";
 import {ReactComponent as LoginSVG} from "../assets/undraw_secure_login_pdn4.svg"
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {toast} from 'react-toastify';
 import { loginUser } from '../services/user-services';
 import { doLogin } from '../auth';
@@ -11,8 +11,8 @@ import { doLogin } from '../auth';
 const Login = () => {
 
 const navigate  = useNavigate()
-const [toURL, settoURL] = useState("")
 const errorMessages = ["Enter a valid email!" ,"Password cannot be empty!"];
+
   const [loginDetail, setLoginDetail] = useState({
      username : "",
      password: ""
@@ -23,32 +23,17 @@ const errorMessages = ["Enter a valid email!" ,"Password cannot be empty!"];
     password: true
   })
 
-  /*
-  useEffect(() => {
-  console.log(loginDetail);
-  }, [loginDetail])
-  */
-
-const handleChange = (e, field) =>{
+const handleChange = (e, field) => {
     setIsValid({...isValid, [field] : e.target.validity.valid})
     setLoginDetail({...loginDetail, [field] : (e.target.value)})
 }
   
   
-useEffect(() => {
-  if (toURL) {
-    navigate(toURL);
-  }
-}, [toURL, navigate]);
-
-
-
 const handleReset = ()=>{
   setLoginDetail({
     username:"",
     password:""
-  });
-}
+  })}
 
 
 const handleSubmit = (e)=>{
@@ -68,7 +53,6 @@ if(!isValid.username){
 }
 
 // Call to server
-
 loginUser(loginDetail)
 .then((data) =>{
 
@@ -78,8 +62,12 @@ loginUser(loginDetail)
     console.log("Data saved to local storage.");
   });
 
-
-  toast.success("Login Successful!")
+  navigate("/user/dashboard");
+  
+  toast.success("Login Successful!", {
+    position: toast.POSITION.BOTTOM_CENTER
+  });
+  
   console.log(data);
 })
 .catch((error)=>{
@@ -174,7 +162,7 @@ loginUser(loginDetail)
             </div>
             <div className="mb-6">
             
-            <Link to={toURL}
+            <Link
             onClick={(e)=> handleSubmit(e)}
             >
               <button
@@ -196,7 +184,7 @@ loginUser(loginDetail)
             <p className="text-sm text-center text-gray-400">
               Don't have an account yet?{" "}
               <Link
-                to="/signup"
+                to="/auth/signup"
                 className="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500 dark:focus:border-indigo-800"
               >
                 Sign up

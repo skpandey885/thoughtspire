@@ -1,8 +1,10 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link, useLocation} from 'react-router-dom';
+import { Link, useLocation, useNavigate} from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import userLogo from "../assets/user.png";
+import { doLogout, isLoggedIn } from '../auth';
 
 
 const navigation = [
@@ -16,11 +18,34 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Navbar() {
+const Navbar = () => {
 
+  const navigateObj  = useNavigate();
+  
   const location = useLocation();
   const [currentRoute, setCurrentRoute] = useState('/');
-  
+
+
+const [login, setlogin] = useState(false)
+
+useEffect(() => {
+  setlogin(isLoggedIn);
+}, [login])
+
+
+
+const logout = ()=>{
+    doLogout(()=>{
+      setlogin(false);
+      navigateObj("/");
+    });
+}
+
+const redirect = (link) =>{
+  navigateObj(link);
+}
+
+
   useEffect(() => {
     setFalse(location.pathname)
    
@@ -28,7 +53,6 @@ export default function Navbar() {
   }, [location]);
   
   function setFalse(path) {
-    
     navigation.forEach((element) => {
         
       if ((element.href).localeCompare(path, undefined, { sensitivity: 'accent' }) === 0) {
@@ -39,12 +63,14 @@ export default function Navbar() {
     });
   }
 
+
+
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
 
-             
 
           <div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div className="relative flex items-center justify-between h-16">
@@ -61,7 +87,8 @@ export default function Navbar() {
               </div>
               <div className="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
                
-  <Link to="/" className='no-underline'>  <h1 className='flex items-center gap-2 text-2xl font-bold text-white mr-[30px] ml-[-50px] font-Itim'>
+  <Link to="/" className='no-underline'>  
+  <h1 className='flex items-center gap-2 text-2xl font-bold text-white mr-[30px] ml-[-50px] font-Itim'>
       thoughtspire
     </h1>
     </Link>
@@ -74,8 +101,8 @@ export default function Navbar() {
 
                         className={classNames(
                           'rounded-md px-3 py-2 text-sm font-Sora no-underline' ,
-                          index === (navigation.length-1) ? 'text-white whitespace-no-wrap bg-black-600 border border-black-700 shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black-500' : '',
-                          item.current ? 'bg-gray-900 text-white'  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                          index === (navigation.length-1) ? '  text-white whitespace-no-wrap bg-black-600 border border-black-700 shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black-500' : '',
+                          item.current ? ' bg-gray-900 text-white'  : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                         )}
                         aria-current={item.current ? 'page' : undefined}
                       >
@@ -86,8 +113,6 @@ export default function Navbar() {
                     ))}
                     
                 </div>
-
-
                 </div>
      
 
@@ -95,6 +120,8 @@ export default function Navbar() {
                 
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+                
                 <button
                   type="button"
                   className="p-1 text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -103,16 +130,19 @@ export default function Navbar() {
                   <BellIcon className="w-6 h-6" aria-hidden="true" />
                 </button>
 
-                {/* Profile dropdown */}
+
+  {login && (
                 <Menu as="div" className="relative ml-3">
                   <div>
                     <Menu.Button className="flex text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="sr-only">Open user menu</span>
                       <img
-                        className="w-8 h-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        className="w-8 rounded-full h-7"
+                        src  = {userLogo}
                         alt=""
+                        
                       />
+                    
                     </Menu.Button>
                   </div>
                   <Transition
@@ -128,36 +158,53 @@ export default function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100 no-underline' : '', 'block px-4 py-2 text-sm text-gray-700 no-underline')}
+                          onClick={() => redirect("/user/profile")}
+                          className={classNames(active ? 'bg-gray-100 no-underline' : '', 'block px-4 py-2 text-sm text-gray-700 no-underline cursor-pointer')}
                           >
                             Your Profile
                           </a>
                         )}
                       </Menu.Item>
+                     
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100 no-underline' : '', 'block px-4 py-2 text-sm text-gray-700 no-underline')}
+                            onClick={() => redirect("/user/dashboard")}
+                            className={classNames(active ? 'bg-gray-100 no-underline' : '', 'block px-4 py-2 text-sm text-gray-700 no-underline cursor-pointer')}
                           >
-                            Settings
+                            Dashboard
                           </a>
                         )}
                       </Menu.Item>
+
+
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100 no-underline'  : '', 'block px-4 py-2 text-sm text-gray-700 no-underline')}
+                            onClick={logout}
+                            className={classNames(active ? 'bg-gray-100 no-underline'  : '', 'block px-4 py-2 text-sm text-gray-700 no-underline cursor-pointer')}
                           >
                             Sign out
                           </a>
                         )}
                       </Menu.Item>
+
                     </Menu.Items>
                   </Transition>
                 </Menu>
+) }
+
+      
+{!login && (
+           
+<Link to={"/auth/login"}>
+<button className="px-4 py-2 ml-3 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700">
+Log In
+</button>
+</Link>                   
+                 
+) }          
+                
               </div>
             </div>
           </div>
@@ -189,3 +236,5 @@ export default function Navbar() {
    
   )
 }
+
+export default Navbar

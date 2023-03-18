@@ -13,8 +13,7 @@ const Signup = () => {
 ];
   
   const navigate = useNavigate(); 
-  const [toURL, settoURL] = useState("")
-  
+
   const [error, setError] = useState({
     errors : {},
     isError : false
@@ -72,9 +71,13 @@ for (const key in data) {
     }
     
       signUp(newData).then((response) =>{
-        settoURL("/");
+        navigate("/");
         console.log(response);
-        toast.success("User Registered Successfully!")
+        toast.success("User Registered Successfully!"
+        , {
+          position: toast.POSITION.BOTTOM_CENTER
+        }
+        )
       })
       .catch((errorObj) => {
         console.log(errorObj);
@@ -95,18 +98,12 @@ for (const key in data) {
      Object.values(errorRec).forEach((element) => {
        toast.info(element)
        })
-         
-      settoURL("#");
     }
     
     
   }, [error])
 
-useEffect(() => {
-  if (toURL) {
-    navigate(toURL);
-  }
-}, [toURL, navigate]);
+
 
   
 
@@ -254,7 +251,6 @@ useEffect(() => {
                 
                 <Link
                 type='submit'
-                to={toURL}
                 onClick={(e)=> submitForm(e)}
                   className="inline-block w-full pt-4 pb-4 pl-5 pr-5 text-xl font-medium text-center text-white no-underline transition duration-200 bg-indigo-500 rounded-lg hover:bg-indigo-600 ease"
                 >
