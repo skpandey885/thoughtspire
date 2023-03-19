@@ -26,7 +26,7 @@ const Navbar = () => {
   const [currentRoute, setCurrentRoute] = useState('/');
 
 
-const [login, setlogin] = useState(false)
+const [login, setlogin] = useState(isLoggedIn())
 
 useEffect(() => {
   setlogin(isLoggedIn());
