@@ -29,9 +29,8 @@ const Navbar = () => {
 const [login, setlogin] = useState(false)
 
 useEffect(() => {
-  setlogin(isLoggedIn);
+  setlogin(isLoggedIn());
 }, [login])
-
 
 
 const logout = ()=>{
@@ -41,6 +40,7 @@ const logout = ()=>{
     });
 }
 
+// redirect function
 const redirect = (link) =>{
   navigateObj(link);
 }
