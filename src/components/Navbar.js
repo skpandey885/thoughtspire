@@ -7,12 +7,21 @@ import userLogo from "../assets/user.png";
 import { doLogout, isLoggedIn } from '../auth';
 
 
+const checkLogin= ()=>{
+  if(isLoggedIn()) 
+ return '/posts/create'
+ else
+ return "/auth/login"
+}
+
+
 const navigation = [
   { name: 'Home', href: '/', current: true },
   { name: 'Trending', href: '/trending', current: false },
-  {name: "Create Post", href: '/posts/create',current : false},
-  
+  {name: "Create Post", href: checkLogin(),current : false}
 ]
+
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
