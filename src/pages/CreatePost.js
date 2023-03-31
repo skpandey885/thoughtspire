@@ -1,12 +1,18 @@
 import Base from '../components/Base'
 import {loadAllCategories} from "../services/category-service"
-import React, { useState,  useEffect } from 'react'
+import React, { useState,  useEffect , useRef} from 'react'
+import JoditEditor from 'jodit-react';
 
 
 const CreatePost = () => {
 
-  let [categories, setcategories] = useState([]);
- 
+  const [categories, setcategories] = useState([]);
+  const editor = useRef(null);
+	const [content, setContent] = useState('');
+
+
+
+  
     useEffect(() => {
       loadAllCategories().then((data)=>{
       console.log(data);
@@ -52,20 +58,17 @@ const CreatePost = () => {
           <input
             className="w-full p-3 mt-2 text-gray-900 bg-gray-100 rounded-lg focus:outline-none focus:shadow-outline"
             type="email"
-            placeholder="Email*"
+            placeholder="Email"
           />
           <input
             className="w-full p-3 mt-2 text-gray-900 bg-gray-100 rounded-lg focus:outline-none focus:shadow-outline"
             type="number"
-            placeholder="Phone*"
+            placeholder="Phone"
           />
         </div>
         <div className="my-4">
-          <textarea
-            placeholder="Content"
-            className="w-full p-3 mt-2 text-gray-900 bg-gray-100 rounded-lg focus:outline-none focus:shadow-outline h-[300px]"
-            defaultValue={""}
-          />
+
+          <JoditEditor ref={editor} value={content} onChange={newContent => setContent(newContent)} className="w-full mt-2 text-gray-900 bg-gray-100 rounded-lg focus:outline-none focus:shadow-outline"/>
         </div>
         <div className="w-1/2 my-2 lg:w-1/4">
           <button
