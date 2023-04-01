@@ -2,18 +2,51 @@ import Base from '../components/Base'
 import {loadAllCategories} from "../services/category-service"
 import React, { useState,  useEffect , useRef} from 'react'
 import JoditEditor from 'jodit-react';
+import {toast} from 'react-toastify';
+import { createPostService } from '../services/post-service';
+import { getCurrentUserDetail } from '../auth';
+import { useNavigate } from 'react-router-dom';
 
 
 const CreatePost = () => {
 
+  const navigate  = useNavigate()
+const [currentUser, setcurrentUser] = useState(undefined)
   const [categories, setcategories] = useState([]);
-  const editor = useRef(null);
-	const [content, setContent] = useState('');
-
-
-
+  const [postData, setPostData] = useState({
+    title :'',
+    categoryId: '',
+    content:''
+  }); 
   
-    useEffect(() => {
+  const editor = useRef(null);
+
+
+  // field change function
+  const fieldChange = (event) => {
+    if(event.target.name === "categoryId"){  
+      const idOfCategory = findId(event.target.value)
+      setPostData({...postData, [event.target.name] : idOfCategory })
+    }else{
+    setPostData({...postData, [event.target.name] : event.target.value})
+    }
+
+  }
+  function findId(title) {
+   for (let index = 0; index < categories.length; index++) {
+    if(title === (categories[index].categoryTitle)){
+      return (categories[index].categoryId);
+    }
+  }
+        return -1;
+  }
+
+  const contentFileChanged = (data) =>{
+    setPostData({...postData, 'content': data})
+  }
+  
+  useEffect(() => {
+      setcurrentUser(getCurrentUserDetail())
       loadAllCategories().then((data)=>{
       console.log(data);
       setcategories(data);
@@ -23,6 +56,39 @@ const CreatePost = () => {
 
   }, [])
   
+  // create post function
+  const createPost=(event) =>{
+   event.preventDefault();
+
+   if (postData.title.trim() === '') {
+    toast.error("post  title is required !!")
+    return;
+}
+
+if (postData.content.trim() === '') {
+    toast.error("post content is required !!")
+    return
+}
+
+console.log(postData.categoryId);
+if (postData.categoryId === '' || postData.categoryId === -1) {
+    toast.error("select some category !!")
+    return;
+}
+
+
+// submit the form to server
+
+postData['userId'] = currentUser.id;
+createPostService(postData).then(data => {
+  navigate("/user/dashboard");
+  toast.info("Post Created!")
+}).catch((error) =>{
+  toast.error("Error Found!");
+  console.log(error);
+});
+
+  }
 
   return (
     <Base>
@@ -31,7 +97,7 @@ const CreatePost = () => {
   <div className="flex items-center justify-center w-screen h-screen bg-white mb-[100px] mt-[150px]">
     {/* COMPONENT CODE */}
     <div className="container px-4 mx-auto my-4 lg:px-20">
-      <div className="w-full p-8 mr-auto shadow-2xl md:px-12 lg:w-9/12 lg:pl-20 lg:pr-40 rounded-2xl spx:mt-[70vh] spx:mb-[10vh]">
+      <div className="w-full p-8 mr-auto shadow-2xl md:px-12 lg:w-9/12 lg:pl-20 lg:pr-40 rounded-2xl spx:mb-[10vh]">
         <div className="flex">
           <h1 className="text-5xl font-bold lowercase font-Sora">
            what's in your <br /> mind? 💡
@@ -42,11 +108,16 @@ const CreatePost = () => {
             className="w-full p-3 mt-2 text-gray-900 bg-gray-100 rounded-lg focus:outline-none focus:shadow-outline"
             type="text"
             placeholder="Title"
+            name='title'
+            onChange={fieldChange}
           />
           <select
             className="w-full p-3 mt-2 text-gray-900 bg-gray-100 rounded-lg focus:outline-none focus:shadow-outline"
+            name='categoryId'
+            onChange={fieldChange}
+            defaultValue="Select a Category"
             >
- <option  key ="0" className='text-gray-100'>Select a Category</option>
+        <option disabled key = "0" className='text-gray-100'>Select a Category</option>
 
        { categories.map((category) => (
             <option key = {category.categoryId} value={category.categoryTitle}>{category.categoryTitle}</option>
@@ -55,26 +126,17 @@ const CreatePost = () => {
       
           </select>
       
-          <input
-            className="w-full p-3 mt-2 text-gray-900 bg-gray-100 rounded-lg focus:outline-none focus:shadow-outline"
-            type="email"
-            placeholder="Email"
-          />
-          <input
-            className="w-full p-3 mt-2 text-gray-900 bg-gray-100 rounded-lg focus:outline-none focus:shadow-outline"
-            type="number"
-            placeholder="Phone"
-          />
+      
         </div>
         <div className="my-4">
 
-          <JoditEditor ref={editor} value={content} onChange={newContent => setContent(newContent)} className="w-full mt-2 text-gray-900 bg-gray-100 rounded-lg focus:outline-none focus:shadow-outline"/>
+          <JoditEditor ref={editor} value={postData.content} onChange={contentFileChanged} className="w-full mt-2 text-gray-900 bg-gray-100 rounded-lg focus:outline-none focus:shadow-outline"/>
         </div>
         <div className="w-1/2 my-2 lg:w-1/4">
-          <button
+          <button onClick={createPost}
             className="w-full p-3 text-sm font-bold tracking-wide text-gray-100 uppercase bg-blue-900 rounded-lg focus:outline-none focus:shadow-outline"
           >
-            Send Message
+           Post
           </button>
         </div>
       </div>

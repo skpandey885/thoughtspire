@@ -8,10 +8,13 @@ import { doLogout, isLoggedIn } from '../auth';
 
 
 const checkLogin= ()=>{
-  if(isLoggedIn()) 
+  if(isLoggedIn()){ 
  return '/posts/create'
- else
+  }else{
  return "/auth/login"
+  }
+
+ 
 }
 
 

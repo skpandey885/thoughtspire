@@ -37,7 +37,6 @@ const handleReset = ()=>{
 
 
 const handleSubmit = (e)=>{
-  e.preventDefault();
   
 // Validation
 for (const key in loginDetail) {
