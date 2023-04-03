@@ -89,17 +89,26 @@ createPostService(postData).then(data => {
 });
 
   }
+  const converted = {
+    width: "50px",
+    border: "2px solid rgb(18, 150, 202)",
+  }
+  
 
   return (
     <Base>
 
+<h1 className="m-5 text-5xl font-bold lowercase font-Sora">
+         Create a Post
+    <div style={converted} className='mx-2'></div>
+    </h1>
 
-  <div className="flex items-center justify-center w-screen h-screen bg-white mb-[100px] mt-[150px]">
+  <div className="flex items-center justify-center w-screen h-screen bg-white mb-[50px] mt-[50px]">
     {/* COMPONENT CODE */}
     <div className="container px-4 mx-auto my-4 lg:px-20">
-      <div className="w-full p-8 mr-auto shadow-2xl md:px-12 lg:w-9/12 lg:pl-20 lg:pr-40 rounded-2xl spx:mb-[10vh]">
+      <div className="w-full p-8 mr-auto shadow-2xl md:px-12 lg:w-9/12 lg:pl-20 lg:pr-40 rounded-2xl spx:mb-[50vh] spx:mt-[60vh]">
         <div className="flex">
-          <h1 className="text-5xl font-bold lowercase font-Sora">
+          <h1 className="text-5xl font-bold lowercase ">
            what's in your <br /> mind? 💡
           </h1>
         </div>
