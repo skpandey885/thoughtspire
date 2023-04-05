@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import "./Post.css"
 
+
 const Post = ({post}) => {
 
 
@@ -14,13 +15,27 @@ const cleanTags = (myText)=>{
         return text;
     }
 
+ function convertDate() {
+  let date = new Date(post.addedDate).toLocaleDateString();
+  return date
+ }   
 
+
+
+ function getReadingTime() {
+
+  let contentLength = String(cleanTags(post.content)).split(" ").length;
+  let minutes = Math.ceil(contentLength/60.0);
+  let text = (minutes===1) ? "minute" : "minutes";
+  return minutes+" "+text;
+
+ }   
 
     
     return (
 <>
         <Link
-        to="#"
+        to={"/posts/" + (post.postId)}
         className="transition-all myCard relative block p-4 overflow-hidden no-underline border  border-gray-100 rounded-lg w-[80%] sm:p-6 lg:p-8 mx-auto my-5 transform hover:scale-[1.009]"
       >
         <span className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600" />
@@ -29,7 +44,7 @@ const cleanTags = (myText)=>{
             <h3 className="text-lg font-bold text-gray-900 sm:text-xl">
                 {post.title}
             </h3>
-            <p className="mt-1 text-xs font-medium text-gray-600">By John Doe</p>
+            <p className="mt-1 text-xs font-medium text-gray-600">{post.user.name}</p>
           </div>
           <div className="hidden sm:block sm:shrink-0">
             <img
@@ -41,19 +56,21 @@ const cleanTags = (myText)=>{
         </div>
         <div className="mt-4">
           <p className="max-w-[40ch] text-sm text-gray-500">
- 
+            
            {cleanTags(post.content).substring(0, Math.min(50, cleanTags(post.content).length))}...
-           
+
           </p>
         </div>
         <dl className="flex gap-4 mt-6 sm:gap-6">
           <div className="flex flex-col-reverse">
             <dt className="text-sm font-medium text-gray-600">Published</dt>
-            <dd className="text-xs text-gray-500">31st June, 2021</dd>
+            <dd className="text-xs text-gray-500">{convertDate()}</dd>
           </div>
           <div className="flex flex-col-reverse">
             <dt className="text-sm font-medium text-gray-600">Reading time</dt>
-            <dd className="text-xs text-gray-500">3 minute</dd>
+            <dd className="text-xs text-gray-500">{
+            getReadingTime()
+            }</dd>
           </div>
         </dl>
       </Link>

@@ -26,7 +26,6 @@ const Trending = () => {
     loadAllPosts(0,5) // initially we will be at page number 0 and total pages we will keep as 5
     .then( 
       (data) => {
-        console.log(data);
         setPostContent(data);
       }
     )

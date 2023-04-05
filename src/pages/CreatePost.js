@@ -80,6 +80,7 @@ if (postData.categoryId === '' || postData.categoryId === -1) {
 // submit the form to server
 
 postData['userId'] = currentUser.id;
+console.log(postData);
 createPostService(postData).then(data => {
   navigate("/user/dashboard");
   toast.info("Post Created!")
