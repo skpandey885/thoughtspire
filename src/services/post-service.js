@@ -16,3 +16,10 @@ export const loadAllPosts= (pageNumber, pageSize) =>{
 export const loadPostByID= (postID) =>{
     return myAxios.get(`/api/posts/${postID}`).then(response => response.data);
 }
+
+
+//create comment
+export const createComment= (comment, userID,postID) =>{
+    return privateAxios.post(`/api/user/${userID}/post/${postID}/comments`, comment)
+    .then(response => response.data);
+}

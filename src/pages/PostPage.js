@@ -5,6 +5,9 @@ import { loadPostByID } from '../services/post-service'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom'
+import Comment from '../components/Comment'
+import WriteComment from '../components/WriteComment'
+
 
 const PostPage = () => {
   
@@ -36,6 +39,7 @@ const PostPage = () => {
        
     loadPostByID(postId).then((data)=>{
       setpost(data);
+      console.log(data);
        }).catch((error)=>{
           console.log(error);
           toast.error("Post could not load!")
@@ -43,7 +47,7 @@ const PostPage = () => {
  
   }, [])
 
-  // console.log(post);
+
   return (
    <Base>
    <div className="mt-3 ml-4">
@@ -105,6 +109,25 @@ const PostPage = () => {
 </div>
 </div>
 </div>
+
+
+ 
+
+<div className="pt-3 pb-2 pl-5 m-5 bg-gray-100 rounded-lg commentBox">
+  <h3 className=' font-Arial'>Comments { (post ? ("(" + post.comments.length+")"): "")}</h3>
+ 
+  <WriteComment post={post} setpost={setpost}/>
+ {
+  post.comments &&  post.comments.map((comment, index)=>(
+    <Comment comment={comment} key={index}/>
+  ))
+  
+
+ }
+ 
+</div>
+  
+
 </Base>
 
 
