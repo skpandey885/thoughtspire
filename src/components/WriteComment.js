@@ -22,23 +22,18 @@ if(commentData.content.trim() === ""){
 }
     if(isLoggedIn()){
         let currentUser = getCurrentUserDetail();
-        
         createComment(commentData, currentUser.id, post.postId)
         .then((data)=>{
          
            toast.success("Comment added!")
            setpost(
             {
-                
                 ...post,
                  comments:[...post.comments, data] 
             }
-            
            );
-
-           setcommentData({
-            content:""
-           })
+           
+           setcommentData({ content:"" })
         })
         .catch((error)=>{
             console.log(error);

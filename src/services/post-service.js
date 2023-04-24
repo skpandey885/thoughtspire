@@ -23,3 +23,13 @@ export const createComment= (comment, userID, postID) =>{
     return privateAxios.post(`/api/user/${userID}/post/${postID}/comments`, comment)
     .then(response => response.data);
 }
+
+// upload a file
+export const uploadFile= (file, postID) =>{
+    let formdata = new FormData();
+    formdata.append("image", file)
+    return privateAxios.post(`/api/post/${postID}/image/upload`,formdata, {
+        'Content-Type': 'multipart/form-data'
+    })
+    .then(response => response.data);
+}

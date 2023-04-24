@@ -18,10 +18,9 @@ const Trending = () => {
     lastPage: false,
     pageNumber: ''
 }
-
-    
     )
 
+    
   useEffect(() => {
     // load all posts from user
     loadAllPosts(0,5) // initially we will be at page number 0 and total pages we will keep as 5
@@ -96,7 +95,7 @@ const Trending = () => {
   dataLength={postContent.content.length}
   next = {changePageInfinite}
   hasMore = {!postContent.lastPage}
-  loader={<h4>Loading...</h4>}
+  loader={<h4 style={{ textAlign: 'center' }}>Loading...</h4>}
   endMessage={
     <p style={{ textAlign: 'center' }}>
       <b>Yay! You have seen it all</b>

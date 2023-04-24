@@ -7,9 +7,12 @@ import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom'
 import Comment from '../components/Comment'
 import WriteComment from '../components/WriteComment'
+import { BASE_URL } from '../services/helper'
 
 
 const PostPage = () => {
+  
+
   
   const {postId} = useParams()
 
@@ -78,9 +81,12 @@ const PostPage = () => {
       role="tabpanel"
       aria-labelledby="about-tab"
     >
-    
       <p className="mb-3" dangerouslySetInnerHTML={{__html: post.content}}>
       </p>
+    
+      <div className="mx-auto mt-4 shadow" style={{ maxWidth: '30%' , maxHeight: '10%'}}>
+      <img className="img-fluid" src={BASE_URL + '/api/post/image/' + post.imageName} alt="" />
+    </div>
     
 {/* <div className="image-container">
   <img src={BASE_URL + "/post/image/" + post.imageName} alt="" />
