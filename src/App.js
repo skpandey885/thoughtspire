@@ -12,6 +12,7 @@ import Dashboard from './user-routes/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './user-routes/Profile';
 import PostPage from './pages/PostPage';
+import CategoryPage from './pages/CategoryPage';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
   <Route path = "auth/login" element={<Login/>}/>
   <Route path="auth/signup" element={<Signup/>} />
   <Route path="/posts/:postId" element={<PostPage/>} />
+  <Route path = "/categories/:categoryId/:categoryTitle" element={<CategoryPage/>}/>
    
    {/* Routes which can be only accessed when the user is logged in! */}
    <Route path='user' element={<PrivateRoute/>}>

@@ -78,7 +78,7 @@ if (postData.content.trim() === '') {
     return
 }
 
-console.log(postData.categoryId);
+
 if (postData.categoryId === '' || postData.categoryId === -1) {
     toast.error("select some category !!")
     return;
@@ -99,22 +99,26 @@ if(file!==null){
 // submit the form to server
 
 postData['userId'] = currentUser.id;
-console.log(postData);
-createPostService(postData).then(data => {
-  uploadFile(file, data.postId).then(data =>{
-    
-    navigate("/user/dashboard");
-    toast.info("Post Created!")
 
+createPostService(postData).then(data => {
+
+  if(file){
+  uploadFile(file, data.postId).then(data =>{
+    console.log("Image Uploaded");
   }).catch((error) =>{
     toast.error("Cannot upload Image!");
     console.log(error);
   });
+}
+
+navigate("/user/dashboard");
+toast.info("Post Created!")
 
 }).catch((error) =>{
   toast.error("Error Found!");
   console.log(error);
 });
+  
 
   }
   const converted = {

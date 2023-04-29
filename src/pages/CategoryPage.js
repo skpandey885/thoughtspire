@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import Base from "../components/Base";
 import { useEffect } from 'react';
-import { loadAllPosts } from '../services/post-service';
+import {  loadPostByCategory } from '../services/post-service';
 import Post from '../components/Post';
 import { toast } from 'react-toastify';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import FilterByCategory from '../components/FilterByCategory';
-const Trending = () => {
+import { useParams } from 'react-router-dom';
+const CategoryPage = () => {
  
-  const[currentPage, setCurrentPage] =useState(0)
+    const {categoryId, categoryTitle} = useParams()
+  
   const[postContent, setPostContent] =useState(
     {
     content: [],
@@ -21,9 +22,11 @@ const Trending = () => {
     )
 
     
+
+    
   useEffect(() => {
     // load all posts from user
-    loadAllPosts(0,5) // initially we will be at page number 0 and total pages we will keep as 5
+    loadPostByCategory(categoryId) // initially we will be at page number 0 and total pages we will keep as 5
     .then( 
       (data) => {
         setPostContent(data);
@@ -34,10 +37,10 @@ const Trending = () => {
       toast.error("Posts could not load!")
     })// initially we will be at page number 0 and total pages we will keep as 5
    
-  }, [])
+  }, [categoryId])
 
 
-  const changePage = (pageNumber = 0 , pageSize = 5) => {
+ /* const changePage = (pageNumber = 0 , pageSize = 5) => {
           
     if(pageNumber<0 || pageNumber>=(postContent.totalPages)){
       return;
@@ -66,10 +69,18 @@ const Trending = () => {
       toast.error("Posts could not load!")
     })
   }
+  
 
-  useEffect(() => {
+   useEffect(() => {
   changePage(currentPage);
   }, [currentPage])
+  
+
+  
+  
+  
+  
+  */
   
 
   
@@ -78,48 +89,25 @@ const Trending = () => {
     border: "2px solid rgb(18, 150, 202)",
   }
 
-  const changePageInfinite = ()=> {
-    console.log("Page Changed!");
-    setCurrentPage(currentPage+1)
-  }
 
   return (
-    <Base >
+    <Base>
     
 <h1 className="m-5 text-5xl font-bold lowercase font-Sora">
-          Trending
-    <div style={converted} className='mx-2'></div>
-    </h1>
-
+          {categoryTitle}
+<div style={converted} className='mx-2'></div>
+</h1>
     <FilterByCategory/>
-<InfiniteScroll
-  dataLength={postContent.content.length}
-  next = {changePageInfinite}
-  hasMore = {!postContent.lastPage}
-  loader={<h4 style={{ textAlign: 'center' }}>Loading...</h4>}
-  endMessage={
-    <p style={{ textAlign: 'center' }}>
-      <b>Yay! You have seen it all</b>
-    </p>
-  }
->
-  
-
  {
-  postContent.content.map((post)=>(
-        <Post post={post} key = {post.postId}/>
+    postContent.content && postContent.content.map((post)=>(
+    <Post post={post} key = {post.postId}/>
   ))
  }
+ 
+{postContent.content.length<=0 ? <h1 className='text-[20px] font-Sora m-5' style={{ textAlign: 'center' }}>No posts available</h1> : ""}
 
-</InfiniteScroll>
-
-      {/* We have implemented infinite scroll, so we have commented the pagination component! */}
-   
-   {/* <Pagination postContent={postContent} setPostContent={setPostContent}/> */}
-
-   
     </Base>
   )
 }
 
-export default Trending
+export default CategoryPage

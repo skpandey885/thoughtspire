@@ -33,3 +33,10 @@ export const uploadFile= (file, postID) =>{
     })
     .then(response => response.data);
 }
+
+
+
+//load post by category
+export const loadPostByCategory= (categoryId) =>{
+    return privateAxios.get(`/api/categories/${categoryId}/posts`).then(response => response.data);
+}
