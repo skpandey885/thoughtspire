@@ -37,6 +37,16 @@ export const uploadFile= (file, postID) =>{
 
 
 //load post by category
-export const loadPostByCategory= (categoryId) =>{
-    return privateAxios.get(`/api/categories/${categoryId}/posts`).then(response => response.data);
+export const loadPostByCategory= (categoryId, pageNumber, pageSize) =>{
+    return privateAxios.get(`/api/categories/${categoryId}/posts?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=addedDate&sortDir=DESC`).then(response => response.data);
+}
+
+//load post by user id
+export const loadPostByUserID= (userId) =>{
+    return privateAxios.get(`/api/users/${userId}/posts`).then(response => response.data);
+}
+
+//delete post by post id
+export const deletePostService= (postId) =>{
+    return privateAxios.delete(`/api/posts/${postId}`).then(response => response.data);
 }

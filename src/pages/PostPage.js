@@ -12,7 +12,14 @@ import { BASE_URL } from '../services/helper'
 
 const PostPage = () => {
   
+  useEffect(() => {
+    const body = document.querySelector('#root');
 
+    body.scrollIntoView({
+        behavior: 'smooth'
+    }, 500)
+
+}, []);
   
   const {postId} = useParams()
 

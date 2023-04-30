@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import Base from "../components/Base";
 import { useEffect } from 'react';
-import { loadAllPosts } from '../services/post-service';
+import { deletePostService, loadAllPosts, loadPostByUserID } from '../services/post-service';
 import Post from '../components/Post';
 import { toast } from 'react-toastify';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import FilterByCategory from '../components/FilterByCategory';
+import { getCurrentUserDetail } from '../auth';
 const Trending = () => {
  
   const[currentPage, setCurrentPage] =useState(0)
@@ -20,12 +21,13 @@ const Trending = () => {
 }
     )
 
-    
-  useEffect(() => {
-    // load all posts from user
+
+    function loadPostData() {
+      // load all posts from user
     loadAllPosts(0,5) // initially we will be at page number 0 and total pages we will keep as 5
     .then( 
       (data) => {
+        console.log(data);
         setPostContent(data);
       }
     )
@@ -33,7 +35,29 @@ const Trending = () => {
       console.log(error);
       toast.error("Posts could not load!")
     })// initially we will be at page number 0 and total pages we will keep as 5
-   
+      }
+
+
+const deletePost = (postId) => {
+  
+  deletePostService(postId)
+  .then( 
+    (data) => {
+     toast.success("Post Deleted!")
+     loadPostData();
+    }
+  )
+  .catch((error) => {
+    console.log(error);
+    toast.error("Posts did not delete!")
+  })
+  
+}
+
+    
+    
+  useEffect(() => {
+    loadPostData();
   }, [])
 
 
@@ -107,7 +131,7 @@ const Trending = () => {
 
  {
   postContent.content.map((post)=>(
-        <Post post={post} key = {post.postId}/>
+        <Post post={post} key = {post.postId} deletePost={deletePost}/>
   ))
  }
 
