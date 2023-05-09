@@ -1,6 +1,6 @@
 import React from 'react'
 import Base from '../components/Base'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { loadPostByID } from '../services/post-service'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
@@ -8,9 +8,15 @@ import { Link } from 'react-router-dom'
 import Comment from '../components/Comment'
 import WriteComment from '../components/WriteComment'
 import { BASE_URL } from '../services/helper'
+import { getCurrentUserDetail, isLoggedIn } from '../auth'
 
 
 const PostPage = () => {
+  
+
+  const [user, setuser] = useState()
+  const [login, setlogin] = useState()
+  const navigate = useNavigate()
   
   useEffect(() => {
     const body = document.querySelector('#root');
@@ -18,6 +24,9 @@ const PostPage = () => {
     body.scrollIntoView({
         behavior: 'smooth'
     }, 500)
+
+    setuser(getCurrentUserDetail())
+    setlogin(isLoggedIn())
 
 }, []);
   
@@ -44,6 +53,11 @@ const PostPage = () => {
     formatDate();
   }, [(post.addedDate)])
   
+
+
+  const handleUpdateClick = () => {
+   navigate("/user/update-post/" + post.postId)
+  }
 
   useEffect(() => {
        
@@ -82,6 +96,12 @@ const PostPage = () => {
 
 
   <div id="defaultTabContent">
+  {
+          login && user.id === post.user.id ? (
+          
+<button onClick={()=> handleUpdateClick()} type="button" className="float-right px-3 py-2 m-2 text-sm font-medium text-gray-900 bg-yellow-400 rounded-lg focus:outline-none hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900">Update</button>
+          ): ""
+        }
     <div
       className="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800"
       id="about"

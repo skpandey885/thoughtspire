@@ -6,7 +6,6 @@ import Post from '../components/Post';
 import { toast } from 'react-toastify';
 import FilterByCategory from '../components/FilterByCategory';
 import { useParams } from 'react-router-dom';
-import { getCurrentUserDetail } from '../auth';
 import InfiniteScroll from 'react-infinite-scroll-component';
 const CategoryPage = () => {
  

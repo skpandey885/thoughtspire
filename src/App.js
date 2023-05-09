@@ -13,6 +13,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Profile from './user-routes/Profile';
 import PostPage from './pages/PostPage';
 import CategoryPage from './pages/CategoryPage';
+import UpdatePost from './pages/UpdatePost';
 
 
 function App() {
@@ -33,7 +34,8 @@ function App() {
    {/* Routes which can be only accessed when the user is logged in! */}
    <Route path='user' element={<PrivateRoute/>}>
     <Route path='dashboard' element={<Dashboard/>}/>
-    <Route path='profile' element={<Profile/>}/>
+    <Route path='profile/:userID' element={<Profile/>}/>
+    <Route path="update-post/:postID" element={<UpdatePost/>} />
    </Route>
 
 

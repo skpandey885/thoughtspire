@@ -4,7 +4,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link, useLocation, useNavigate} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import userLogo from "../assets/user.png";
-import { doLogout, isLoggedIn } from '../auth';
+import { doLogout, getCurrentUserDetail, isLoggedIn } from '../auth';
 
 
 const checkLogin= ()=>{
@@ -13,8 +13,6 @@ const checkLogin= ()=>{
   }else{
  return "/auth/login"
   }
-
- 
 }
 
 
@@ -36,10 +34,16 @@ const Navbar = () => {
   
   const location = useLocation();
   const [currentRoute, setCurrentRoute] = useState('/');
+  const [login, setlogin] = useState(isLoggedIn())
+  const [currUser, setCurrUser] = useState();
+  
+  
+useEffect(() => {
+  let userTemp =getCurrentUserDetail()
+setCurrUser(userTemp);
+}, [])
 
-
-const [login, setlogin] = useState(isLoggedIn())
-
+  
 useEffect(() => {
   setlogin(isLoggedIn());
 }, [login])
@@ -60,7 +64,6 @@ const redirect = (link) =>{
 
   useEffect(() => {
     setFalse(location.pathname)
-   
     setCurrentRoute(location.pathname);
   }, [location]);
   
@@ -170,7 +173,7 @@ const redirect = (link) =>{
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                          onClick={() => redirect("/user/profile")}
+                          onClick={() => redirect("/user/profile/"+currUser.id)}
                           className={classNames(active ? 'bg-gray-100 no-underline' : '', 'block px-4 py-2 text-sm text-gray-700 no-underline cursor-pointer')}
                           >
                             Your Profile

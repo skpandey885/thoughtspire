@@ -16,6 +16,7 @@ const WriteComment = ({post, setpost}) => {
 
 
 const handleSubmit = () =>{
+  
 if(commentData.content.trim() === ""){
     toast.info("Comment cannot be empty!")
     return;

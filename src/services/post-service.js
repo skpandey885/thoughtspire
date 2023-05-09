@@ -12,7 +12,7 @@ export const loadAllPosts= (pageNumber, pageSize) =>{
 }
 
 
-//load single post of given ID
+//load single post of given postID
 export const loadPostByID= (postID) =>{
     return myAxios.get(`/api/posts/${postID}`).then(response => response.data);
 }
@@ -49,4 +49,9 @@ export const loadPostByUserID= (userId) =>{
 //delete post by post id
 export const deletePostService= (postId) =>{
     return privateAxios.delete(`/api/posts/${postId}`).then(response => response.data);
+}
+
+// update post
+export const updatePostService= (postId, postData) =>{
+    return privateAxios.put(`/api/posts/${postId}`, postData).then(response => response.data);
 }

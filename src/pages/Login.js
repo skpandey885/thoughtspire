@@ -5,7 +5,7 @@ import {ReactComponent as LoginSVG} from "../assets/undraw_secure_login_pdn4.svg
 import { useState } from 'react';
 import {toast} from 'react-toastify';
 import { loginUser } from '../services/user-services';
-import { doLogin } from '../auth';
+import { doLogin, savePasswordService } from '../auth';
 
 
 const Login = () => {
@@ -55,11 +55,13 @@ if(!isValid.username){
 loginUser(loginDetail)
 .then((data) =>{
 
-
   // save the data to localStorage
   doLogin(data, () =>{
     console.log("Data saved to local storage.");
   });
+
+  // // save password to local storage 
+ savePasswordService((loginDetail.password));
 
   navigate("/user/dashboard");
   
@@ -70,7 +72,6 @@ loginUser(loginDetail)
   console.log(data);
 })
 .catch((error)=>{
-
 
   let status = error.response.status
   if(status === 404 ){

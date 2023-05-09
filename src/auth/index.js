@@ -11,8 +11,6 @@
 
  }
 
-
-
 /* do login ->  Set data or Token to local storage of browser
  next() is the callback function passed to doLogin
 */
@@ -27,6 +25,7 @@ next() is the callback function passed to doLogout
 */
 export const doLogout = (next)=>{
     localStorage.removeItem("data");
+    removePassword()
     next();
 }
 
@@ -42,8 +41,28 @@ export const getCurrentUserDetail = () => {
 }
 
 
+// get current user password
+export const savePasswordService = (password) => {
+    localStorage.setItem("password", JSON.stringify(password));
+}
 
-// get current User
+
+// get current user password
+export const getCurrentUserPassword = () => {
+    if(isLoggedIn()){
+        return JSON.parse(localStorage.getItem("password"));
+    }else{
+        console.log("User is not logged in.");
+        return undefined;
+    }
+}
+
+// remove password, next is a call back function
+export const removePassword = ()=>{
+    localStorage.removeItem("password");
+}
+
+// get current user token
 export const getToken = () => {
     if(isLoggedIn()){
        return JSON.parse(localStorage.getItem("data")).token;
