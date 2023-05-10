@@ -6,3 +6,26 @@
 margin: 0;
 padding: 0;
 }
+
+#thghtspire-button{
+    color: rgb(255, 255, 255);
+    background-color: rgb(0, 149, 255);
+    height: 50px;
+    width: 130px;
+    transition: .2s all ease-in;
+    border: 0px solid;
+    font-family: 'Caveat', cursive;
+    border-radius: 5px;
+
+}
+#thghtspire-button:hover{
+    /* background-color: cornsilk;
+     */
+     background-color: rgb(82, 212, 255);
+     
+    color: rgb(0, 0, 116);
+    border: 0px solid;
+    border-radius: 40px;
+}
+
+svg#freepik_stories-diary:not(.animated) .animable {opacity: 0;}svg#freepik_stories-diary.animated #freepik--background-simple--inject-2 {animation: 1s 1 forwards cubic-bezier(.36,-0.01,.5,1.38) zoomOut;animation-delay: 0s;}svg#freepik_stories-diary.animated #freepik--abstract-texts--inject-2 {animation: 1s 1 forwards cubic-bezier(.36,-0.01,.5,1.38) zoomIn;animation-delay: 0s;}svg#freepik_stories-diary.animated #freepik--Hearts--inject-2 {animation: 1s 1 forwards cubic-bezier(.36,-0.01,.5,1.38) fadeIn;animation-delay: 0s;}svg#freepik_stories-diary.animated #freepik--Faces--inject-2 {animation: 1s 1 forwards cubic-bezier(.36,-0.01,.5,1.38) fadeIn;animation-delay: 0s;}svg#freepik_stories-diary.animated #freepik--light-bulb--inject-2 {animation: 1s 1 forwards cubic-bezier(.36,-0.01,.5,1.38) slideDown;animation-delay: 0s;}svg#freepik_stories-diary.animated #freepik--Character--inject-2 {animation: 1s 1 forwards cubic-bezier(.36,-0.01,.5,1.38) slideLeft;animation-delay: 0s;}            @keyframes zoomOut {                0% {                    opacity: 0;                    transform: scale(1.5);                }                100% {                    opacity: 1;                    transform: scale(1);                }            }                    @keyframes zoomIn {                0% {                    opacity: 0;                    transform: scale(0.5);                }                100% {                    opacity: 1;                    transform: scale(1);                }            }                    @keyframes fadeIn {                0% {                    opacity: 0;                }                100% {                    opacity: 1;                }            }                    @keyframes slideDown {                0% {                    opacity: 0;                    transform: translateY(-30px);                }                100% {                    opacity: 1;                    transform: translateY(0);                }            }                    @keyframes slideLeft {                0% {                    opacity: 0;                    transform: translateX(-30px);                }                100% {                    opacity: 1;                    transform: translateX(0);                }            }    

@@ -7,6 +7,7 @@ module.exports = {
       fontFamily: {
         Sora: ["Sora", " sans-serif"],
         Itim:[ "Itim","cursive"],
+        Caveat: ["Caveat", "cursive"]
       }
     },
 
