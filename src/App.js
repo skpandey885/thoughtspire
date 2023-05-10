@@ -38,10 +38,6 @@ function App() {
     <Route path="update-post/:postID" element={<UpdatePost/>} />
    </Route>
 
-
-
-
-
 </Routes>
 </BrowserRouter>
 

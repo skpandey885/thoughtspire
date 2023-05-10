@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import Base from "../components/Base";
 import { useEffect } from 'react';
-import { deletePostService, loadAllPosts, loadPostByUserID } from '../services/post-service';
+import { deletePostService, loadAllPosts } from '../services/post-service';
 import Post from '../components/Post';
 import { toast } from 'react-toastify';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import FilterByCategory from '../components/FilterByCategory';
-import { getCurrentUserDetail } from '../auth';
+
+
 const Trending = () => {
  
   const[currentPage, setCurrentPage] =useState(0)
@@ -21,6 +22,10 @@ const Trending = () => {
 }
     )
 
+
+    useEffect(() => {
+      loadPostData();
+    }, [])
 
     function loadPostData() {
       // load all posts from user
@@ -55,11 +60,6 @@ const deletePost = (postId) => {
 }
 
     
-    
-  useEffect(() => {
-    loadPostData();
-  }, [])
-
 
   const changePage = (pageNumber = 0 , pageSize = 5) => {
           
@@ -109,13 +109,13 @@ const deletePost = (postId) => {
 
   return (
     <Base >
-    
+
 <h1 className="m-5 text-5xl font-bold lowercase font-Sora">
           Trending
-    <div style={converted} className='mx-2'></div>
+  <div style={converted} className='mx-2'></div>
     </h1>
 
-    <FilterByCategory/>
+  <FilterByCategory/>
 <InfiniteScroll
   dataLength={postContent.content.length}
   next = {changePageInfinite}
